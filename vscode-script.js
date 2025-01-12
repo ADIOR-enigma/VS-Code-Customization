@@ -1,79 +1,56 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Check for `.quick-input-widget` periodically until found
     const checkElement = setInterval(() => {
         const commandDialog = document.querySelector(".quick-input-widget");
         if (commandDialog) {
-          // Apply the blur effect immediately if the command dialog is visible
-          if (commandDialog.style.display !== "none") {
-            runMyScript();
-          }
-            // Create an DOM observer to 'listen' for changes in element's attribute.
-            const observer = new MutationObserver((mutations) => {
-                mutations.forEach((mutation) => {
-                    if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
-                        if (commandDialog.style.display === 'none') {
-                            handleEscape();
-                        } else {
-                            // If the .quick-input-widget element (command palette) is in the DOM
-                            // but no inline style display: none, show the backdrop blur.
-                            runMyScript();
-                        }
-                    }
-                });
-            });
-
-            observer.observe(commandDialog, { attributes: true });
-
-            // Clear the interval once the observer is set
+            // Initialize observer for style changes on `.quick-input-widget`
+            setupObserver(commandDialog);
             clearInterval(checkElement);
         } else {
             console.log("Command dialog not found yet. Retrying...");
         }
     }, 500); // Check every 500ms
 
-    // Execute when command palette was launched.
+    // Unified keydown event listener for Ctrl+P and Escape keys
     document.addEventListener('keydown', function(event) {
         if ((event.metaKey || event.ctrlKey) && event.key === 'p') {
             event.preventDefault();
-            runMyScript();
+            toggleBlurEffect(true); // Show blur on Ctrl+P
         } else if (event.key === 'Escape' || event.key === 'Esc') {
             event.preventDefault();
-            handleEscape();
+            toggleBlurEffect(false); // Hide blur on Escape
         }
     });
 
-    // Ensure the escape key event listener is at the document level
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape' || event.key === 'Esc') {
-            handleEscape();
-        }
-    }, true);
-
-    function runMyScript() {
-        const targetDiv = document.querySelector(".monaco-workbench");
-
-        // Remove existing element if it already exists
-        const existingElement = document.getElementById("command-blur");
-        if (existingElement) {
-            existingElement.remove();
-        }
-
-        // Create and configure the new element
-        const newElement = document.createElement("div");
-        newElement.setAttribute('id', 'command-blur');
-
-        newElement.addEventListener('click', function() {
-            newElement.remove();
+    function setupObserver(commandDialog) {
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                    // Show or hide blur based on `display` status of `commandDialog`
+                    toggleBlurEffect(commandDialog.style.display !== 'none');
+                }
+            });
         });
 
-        // Append the new element as a child of the targetDiv
-        targetDiv.appendChild(newElement);
+        observer.observe(commandDialog, { attributes: true });
     }
 
-    // Remove the backdrop blur from the DOM when esc key is pressed.
-    function handleEscape() {
-        const element = document.getElementById("command-blur");
-        if (element) {
-            element.click();
+    function toggleBlurEffect(show) {
+        const targetDiv = document.querySelector(".monaco-workbench");
+        if (!targetDiv) {
+            console.warn("Target div '.monaco-workbench' not found.");
+            return;
+        }
+
+        // If 'show' is true, add the blur effect, otherwise remove it
+        const existingBlur = document.getElementById("command-blur");
+        if (show && !existingBlur) {
+            const blurElement = document.createElement("div");
+            blurElement.setAttribute('id', 'command-blur');
+            blurElement.addEventListener('click', () => blurElement.remove());
+            targetDiv.appendChild(blurElement);
+        } else if (!show && existingBlur) {
+            existingBlur.remove();
         }
     }
 });
