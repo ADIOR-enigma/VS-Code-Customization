@@ -1,3 +1,5 @@
+![Screenshot 2025-01-12 194353](https://github.com/user-attachments/assets/f8fb04de-96ae-4b6a-8e59-ba712215291a)
+![Screenshot 2025-01-12 194131](https://github.com/user-attachments/assets/8c9dca64-f73a-44b0-9035-d1e677c4f65d)
 # Instructions
 
 **NOTE:** Please take time to read the short documentation of **"Custom CSS and JS Loader"** for some useful tips for various operating systems to avoid issues regarding the changes not taking effect.
