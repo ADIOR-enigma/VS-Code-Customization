@@ -5,7 +5,7 @@
 **NOTE:** Please take time to read the short documentation of **"Custom CSS and JS Loader"** for some useful tips for various operating systems to avoid issues regarding the changes not taking effect.
 
 1. Install "VSCode Animations" VS Code Extension.
-2. Install "Rose Pine" VS Code theme Extensio and 
+2. Install "Omni Qwl Theme" VS Code theme Extensio and 
 3. Install "Custom CSS and JS Loader" VS Code Extension.
 4. Copy the contents of settings.json to your VS Code's settings.json (warning: it will overwrite your settings).
 5. Add `vscode_custom_css.imports` array to your settings.json file:
