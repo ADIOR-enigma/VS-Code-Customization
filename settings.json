@@ -233,7 +233,7 @@
 "files.autoSaveDelay": 10000,
 "editor.minimap.enabled": false,
 "phpserver.browser": "firefox",
-"workbench.colorTheme": "Rosé Pine",
+"workbench.colorTheme": "Omni Owl",
 "editor.smoothScrolling": true,
 "terminal.integrated.smoothScrolling": true,
 "workbench.list.smoothScrolling": true,
@@ -243,4 +243,3 @@
 "animations.Enabled": true,
 "editor.cursorBlinking": "smooth"
 }
-
